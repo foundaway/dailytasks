@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Tareas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f4;--surface:#fff;--surface2:#f1f0ec;
+  --border:#e2e0da;--border2:#ccc9c0;
+  --text:#1a1917;--text2:#6b6860;--text3:#a09e99;
+  --green:#2d6a27;--green-bg:#eaf3de;
+  --blue:#185FA5;--blue-bg:#E6F1FB;
+  --amber:#7a4a08;--amber-bg:#faeeda;
+  --red:#a32d2d;--red-bg:#fcebeb;
+  --purple:#534AB7;--purple-bg:#EEEDFE;
+  --r:10px;--rs:7px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1a1917;--surface:#252421;--surface2:#2e2c2a;
+  --border:#3a3835;--border2:#4a4845;
+  --text:#f0ede8;--text2:#9c9890;--text3:#6b6860;
+  --green:#7fc977;--green-bg:#1a2e18;
+  --blue:#7ab5f0;--blue-bg:#0c1e35;
+  --amber:#f0b84a;--amber-bg:#2a1e08;
+  --red:#f09595;--red-bg:#2e1515;
+  --purple:#a89ff5;--purple-bg:#1e1c40;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app{max-width:700px;margin:0 auto;padding:1.25rem 1rem 3rem}
+
+/* HEADER */
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
+.header h1{font-size:22px;font-weight:600;letter-spacing:-.4px}
+.header-date{font-size:12px;color:var(--text2);margin-top:3px}
+.header-greeting{font-size:13px;color:var(--text2)}
+
+/* SYNC ROW */
+.sync-row{display:flex;gap:8px;margin-bottom:1.1rem;flex-wrap:wrap}
+.sync-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.sync-btn:hover{background:var(--surface2)}
+.sync-btn.qr{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.sync-btn.export{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.sync-btn.import-btn{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
+.sync-btn svg{width:15px;height:15px;flex-shrink:0}
+.sync-label{font-size:12px;color:var(--text3);display:flex;align-items:center;margin-left:auto}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.1rem}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;text-align:center}
+.stat-num{font-size:26px;font-weight:600;line-height:1.1}
+.stat-label{font-size:11px;color:var(--text2);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+.stat-num.blue{color:var(--blue)}.stat-num.green{color:var(--green)}.stat-num.amber{color:var(--amber)}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:1.1rem}
+.progress-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease}
+.progress-label{font-size:12px;color:var(--text2);margin-top:5px;text-align:right}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:1rem;background:var(--surface2);border-radius:var(--r);padding:4px}
+.tab{flex:1;padding:7px 4px;font-size:13px;font-weight:500;text-align:center;border:none;background:transparent;color:var(--text2);cursor:pointer;border-radius:var(--rs);transition:all .15s;font-family:inherit}
+.tab.active{background:var(--surface);color:var(--text);border:0.5px solid var(--border)}
+
+/* FILTER + SORT */
+.controls{display:flex;align-items:center;gap:8px;margin-bottom:.85rem;flex-wrap:wrap}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.filter-btn{padding:5px 12px;border:0.5px solid var(--border);border-radius:20px;background:transparent;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s}
+.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.sort-row{display:flex;align-items:center;gap:6px}
+.sort-row label{font-size:12px;color:var(--text2)}
+.sort-row select{padding:4px 8px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:12px;font-family:inherit;outline:none}
+
+/* ADD FORM */
+.add-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:1rem}
+.add-row1{display:flex;gap:8px;margin-bottom:8px}
+.add-row1 input{flex:1;padding:8px 11px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:14px;font-family:inherit;outline:none}
+.add-row1 input:focus{border-color:var(--border2);background:var(--surface)}
+.add-row2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.add-row2 select,.add-row2 input[type=date]{padding:7px 9px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:13px;font-family:inherit;outline:none;cursor:pointer}
+.add-row2 label{font-size:12px;color:var(--text2);white-space:nowrap}
+.add-btn{margin-left:auto;padding:8px 16px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.add-btn:hover{opacity:.82}
+
+/* TASKS */
+.section{margin-bottom:1rem}
+.section-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:.5rem}
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);margin-bottom:6px;transition:opacity .2s}
+.task-item.done{opacity:.45}
+.task-item.done .task-text{text-decoration:line-through;color:var(--text2)}
+.task-item.overdue{border-left:2.5px solid var(--red)}
+.task-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;padding:0}
+.task-check.checked{background:var(--green);border-color:var(--green)}
+.task-check.checked::after{content:"";width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px);display:block}
+.task-body{flex:1;min-width:0}
+.task-text{font-size:14px;line-height:1.4;word-break:break-word}
+.task-meta{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
+.task-tag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.tag-daily{background:var(--blue-bg);color:var(--blue)}
+.tag-weekly{background:var(--purple-bg);color:var(--purple)}
+.tag-monthly{background:var(--amber-bg);color:var(--amber)}
+.priority-badge{font-size:11px;padding:2px 7px;border-radius:20px;font-weight:600}
+.p-alta{background:var(--red-bg);color:var(--red)}
+.p-media{background:var(--amber-bg);color:var(--amber)}
+.p-baja{background:var(--green-bg);color:var(--green)}
+.task-date{font-size:11px;color:var(--text3)}
+.task-date.ov{color:var(--red);font-weight:500}
+.task-del{width:24px;height:24px;border:none;background:transparent;color:var(--text3);cursor:pointer;font-size:18px;flex-shrink:0;border-radius:5px;display:flex;align-items:center;justify-content:center;padding:0}
+.task-del:hover{background:var(--surface2);color:var(--text2)}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text3);font-size:14px}
+.clear-done{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
+.clear-done:hover{color:var(--text2)}
+
+/* MODAL OVERLAY */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--r);padding:1.5rem;width:100%;max-width:380px;position:relative}
+.modal h2{font-size:17px;font-weight:600;margin-bottom:.35rem}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:1.1rem;line-height:1.5}
+.modal-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border:none;background:var(--surface2);border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+.modal-close:hover{background:var(--border)}
+#qr-wrap{display:flex;justify-content:center;margin-bottom:1rem}
+#qr-wrap canvas{border-radius:8px}
+.modal-hint{font-size:12px;color:var(--text3);text-align:center;line-height:1.5}
+.import-area{width:100%;min-height:100px;padding:10px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:12px;font-family:var(--font-mono,monospace);resize:vertical;outline:none;margin-bottom:.75rem}
+.import-area:focus{border-color:var(--border2)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.btn-cancel{padding:7px 14px;border:0.5px solid var(--border);border-radius:var(--rs);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit}
+.btn-ok{padding:7px 14px;border:none;border-radius:var(--rs);background:var(--text);color:var(--bg);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.merge-info{font-size:12px;color:var(--text2);margin-bottom:.75rem;padding:.6rem .75rem;background:var(--surface2);border-radius:var(--rs)}
+
+/* FILE INPUT hidden */
+#file-import{display:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:.6rem 1.2rem;border-radius:var(--r);font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>Mis Tareas</h1>
+      <div class="header-date" id="header-date"></div>
+    </div>
+    <div class="header-greeting" id="header-greeting"></div>
+  </div>
+
+  <!-- SYNC ROW -->
+  <div class="sync-row">
+    <button class="sync-btn qr" onclick="openQR()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/></svg>
+      Compartir QR
+    </button>
+    <button class="sync-btn export" onclick="exportJSON()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12l-4-4m4 4l4-4"/><path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+      Exportar .json
+    </button>
+    <button class="sync-btn import-btn" onclick="openImport()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v12m0-12l-4 4m4-4l4 4"/><path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+      Importar
+    </button>
+    <span class="sync-label" id="sync-label"></span>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num blue" id="s-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat"><div class="stat-num green" id="s-done">0</div><div class="stat-label">Hechas</div></div>
+    <div class="stat"><div class="stat-num amber" id="s-pending">0</div><div class="stat-label">Pendientes</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="progress-label">0% completado</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="setView('all')">Todas</button>
+    <button class="tab" onclick="setView('daily')">Diarias</button>
+    <button class="tab" onclick="setView('weekly')">Semanales</button>
+    <button class="tab" onclick="setView('monthly')">Mensuales</button>
+  </div>
+
+  <!-- ADD -->
+  <div class="add-card">
+    <div class="add-row1">
+      <input type="text" id="new-task" placeholder="Escribe una tarea nueva..." maxlength="120"/>
+    </div>
+    <div class="add-row2">
+      <select id="new-type">
+        <option value="daily">Diaria</option>
+        <option value="weekly">Semanal</option>
+        <option value="monthly">Mensual</option>
+      </select>
+      <select id="new-priority">
+        <option value="alta">▲ Alta</option>
+        <option value="media" selected>▶ Media</option>
+        <option value="baja">▼ Baja</option>
+      </select>
+      <label>Vence:</label>
+      <input type="date" id="new-due"/>
+      <button class="add-btn" onclick="addTask()">+ Agregar</button>
+    </div>
+  </div>
+
+  <!-- CONTROLES -->
+  <div class="controls">
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setFilter('all')">Todas</button>
+      <button class="filter-btn" onclick="setFilter('pending')">Pendientes</button>
+      <button class="filter-btn" onclick="setFilter('done')">Completadas</button>
+      <button class="filter-btn" onclick="setFilter('overdue')">Vencidas</button>
+    </div>
+    <div class="sort-row">
+      <label>Orden:</label>
+      <select id="sort-select" onchange="render()">
+        <option value="created">Creación</option>
+        <option value="due">Vencimiento</option>
+        <option value="priority">Prioridad</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="task-list"></div>
+
+  <div style="text-align:right;margin-top:1rem">
+    <button class="clear-done" onclick="clearDone()">Limpiar completadas</button>
+  </div>
+</div>
+
+<!-- MODAL QR -->
+<div class="modal-overlay" id="modal-qr">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-qr')">×</button>
+    <h2>Compartir por QR</h2>
+    <p class="modal-sub">Escanea este código con tu celular para cargar todas tus tareas. Abre la app en el celular → Importar → "Pegar JSON" y pega el texto, <strong>o</strong> simplemente escanea y abre el enlace.</p>
+    <div id="qr-wrap"><canvas id="qr-canvas"></canvas></div>
+    <p class="modal-hint" id="qr-size-hint"></p>
+  </div>
+</div>
+
+<!-- MODAL IMPORTAR -->
+<div class="modal-overlay" id="modal-import">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-import')">×</button>
+    <h2>Importar tareas</h2>
+    <p class="modal-sub">Pega el JSON exportado desde otro dispositivo, o selecciona el archivo .json descargado. Las tareas nuevas se <strong>combinan</strong> con las que ya tienes (no se pierden).</p>
+    <div class="merge-info" id="merge-preview" style="display:none"></div>
+    <textarea class="import-area" id="import-json" placeholder='Pega aquí el JSON...'></textarea>
+    <div style="display:flex;gap:8px;margin-bottom:.75rem">
+      <button class="sync-btn" onclick="document.getElementById('file-import').click()" style="flex:1;justify-content:center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5 5 5M12 5v11"/></svg>
+        Abrir archivo .json
+      </button>
+    </div>
+    <input type="file" id="file-import" accept=".json,application/json" onchange="loadFile(event)"/>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-import')">Cancelar</button>
+      <button class="btn-ok" onclick="doImport()">Combinar tareas</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- QR lib: qrcode-generator (dibuja directo en canvas) -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+const DAYS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const PORD={alta:0,media:1,baja:2};
+const LS='joe_tasks_v3';
+
+let tasks=[];
+let view='all';
+let filter='all';
+
+/* ── STORAGE ── */
+function load(){try{tasks=JSON.parse(localStorage.getItem(LS)||'[]');}catch(e){tasks=[];}}
+function save(){try{localStorage.setItem(LS,JSON.stringify(tasks));}catch(e){}}
+function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function pad(n){return String(n).padStart(2,'0');}
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+
+/* ── TOAST ── */
+function toast(msg,ms=2500){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),ms);
+}
+
+/* ── MODALES ── */
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openModal(id){document.getElementById(id).classList.add('open');}
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
+});
+
+/* ══════════════════════════════
+   QR EXPORT
+══════════════════════════════ */
+function openQR(){
+  const data=JSON.stringify({tasks,v:3,exported:new Date().toISOString()});
+  const bytes=new TextEncoder().encode(data).length;
+  const hint=document.getElementById('qr-size-hint');
+
+  let payload=data;
+  let note='';
+  if(bytes>2800){
+    const slim=tasks.filter(t=>!t.done).map(t=>({id:t.id,text:t.text,type:t.type,priority:t.priority,due:t.due||'',created:t.created}));
+    payload=JSON.stringify({tasks:slim,v:3,partial:true,exported:new Date().toISOString()});
+    note='⚠ Muchas tareas: el QR incluye solo las pendientes. Usa "Exportar .json" para todas.';
+  }
+
+  try{
+    const typeNum=0; // auto detect
+    const qr=qrcode(typeNum,'M');
+    qr.addData(payload);
+    qr.make();
+
+    const canvas=document.getElementById('qr-canvas');
+    const size=240;
+    const cellCount=qr.getModuleCount();
+    const cellSize=Math.floor(size/cellCount);
+    const actualSize=cellSize*cellCount;
+    canvas.width=actualSize;
+    canvas.height=actualSize;
+    const ctx=canvas.getContext('2d');
+
+    // Fondo blanco (QR necesita contraste)
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(0,0,actualSize,actualSize);
+    ctx.fillStyle='#000000';
+
+    for(let r=0;r<cellCount;r++){
+      for(let c=0;c<cellCount;c++){
+        if(qr.isDark(r,c)){
+          ctx.fillRect(c*cellSize,r*cellSize,cellSize,cellSize);
+        }
+      }
+    }
+
+    const kb=Math.round(new TextEncoder().encode(payload).length/102.4)/10;
+    hint.textContent=note||(tasks.length+' tarea(s) · '+kb+' KB');
+  }catch(e){
+    document.getElementById('qr-size-hint').textContent='Error generando QR: '+e.message;
+    console.error(e);
+  }
+
+  openModal('modal-qr');
+}
+
+/* ══════════════════════════════
+   JSON EXPORT
+══════════════════════════════ */
+function exportJSON(){
+  const data=JSON.stringify({tasks,v:3,exported:new Date().toISOString()},null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  const d=new Date();
+  a.download='tareas-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  updateSyncLabel();
+  toast('✅ Archivo descargado ('+tasks.length+' tareas)');
+}
+
+/* ══════════════════════════════
+   IMPORT
+══════════════════════════════ */
+function openImport(){
+  document.getElementById('import-json').value='';
+  document.getElementById('merge-preview').style.display='none';
+  openModal('modal-import');
+}
+
+function loadFile(e){
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById('import-json').value=ev.target.result;
+    previewMerge(ev.target.result);
+  };
+  r.readAsText(f);
+  e.target.value='';
+}
+
+document.getElementById('import-json').addEventListener('input',function(){
+  previewMerge(this.value);
+});
+
+function previewMerge(raw){
+  const box=document.getElementById('merge-preview');
+  try{
+    const obj=JSON.parse(raw.trim());
+    const incoming=(obj.tasks||[]).length;
+    const existing=tasks.length;
+    const ids=new Set(tasks.map(t=>t.id));
+    const nuevas=(obj.tasks||[]).filter(t=>!ids.has(t.id)).length;
+    box.textContent=`📦 Archivo: ${incoming} tareas | Ya tienes: ${existing} | Se agregarán: ${nuevas} nueva(s)`;
+    box.style.display='block';
+  }catch(e){
+    box.style.display='none';
+  }
+}
+
+function doImport(){
+  const raw=document.getElementById('import-json').value.trim();
+  if(!raw){toast('Pega o carga un archivo JSON primero.');return;}
+  let obj;
+  try{obj=JSON.parse(raw);}
+  catch(e){toast('❌ JSON inválido. Revisa el texto.',3000);return;}
+
+  const incoming=obj.tasks||[];
+  if(!Array.isArray(incoming)||!incoming.length){toast('No se encontraron tareas en el archivo.');return;}
+
+  // Merge: las tareas existentes tienen prioridad (no se sobrescriben)
+  const existing=new Map(tasks.map(t=>[t.id,t]));
+  let added=0;
+  incoming.forEach(t=>{
+    if(!existing.has(t.id)){existing.set(t.id,t);added++;}
+  });
+  tasks=Array.from(existing.values());
+  save();render();
+  closeModal('modal-import');
+  updateSyncLabel();
+  toast('✅ '+added+' tarea(s) importada(s)');
+}
+
+/* ── SYNC LABEL ── */
+function updateSyncLabel(){
+  const now=new Date();
+  document.getElementById('sync-label').textContent='Último sync '+pad(now.getHours())+':'+pad(now.getMinutes());
+}
+
+/* ── TASKS ── */
+function setView(v){
+  view=v;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['all','daily','weekly','monthly'][i]===v));
+  render();
+}
+function setFilter(f){
+  filter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+function addTask(){
+  const inp=document.getElementById('new-task');
+  const text=inp.value.trim();
+  if(!text)return;
+  tasks.push({
+    id:genId(),text,
+    type:document.getElementById('new-type').value,
+    priority:document.getElementById('new-priority').value,
+    due:document.getElementById('new-due').value||null,
+    done:false,
+    created:new Date().toISOString()
+  });
+  save();inp.value='';render();inp.focus();
+}
+function toggleTask(id){
+  const t=tasks.find(x=>x.id===id);
+  if(t){t.done=!t.done;t.doneAt=t.done?new Date().toISOString():null;}
+  save();render();
+}
+function deleteTask(id){
+  if(!confirm('¿Eliminar esta tarea?'))return;
+  tasks=tasks.filter(x=>x.id!==id);
+  save();render();
+}
+function clearDone(){
+  const n=tasks.filter(t=>t.done).length;
+  if(!n){alert('No hay completadas.');return;}
+  if(!confirm('¿Eliminar '+n+' tarea(s) completada(s)?'))return;
+  tasks=tasks.filter(t=>!t.done);
+  save();render();
+}
+
+function isOverdue(t){return t.due&&!t.done&&t.due<todayStr();}
+function fmtDate(s){if(!s)return null;const[y,m,d]=s.split('-');return d+'/'+m+'/'+y;}
+function fmtCreated(s){if(!s)return '';const d=new Date(s);return 'Agregada el '+d.getDate()+' de '+MES[d.getMonth()];}
+
+function sortTasks(arr){
+  const s=document.getElementById('sort-select').value;
+  return [...arr].sort((a,b)=>{
+    if(s==='priority')return (PORD[a.priority]||1)-(PORD[b.priority]||1);
+    if(s==='due'){if(!a.due&&!b.due)return 0;if(!a.due)return 1;if(!b.due)return-1;return a.due.localeCompare(b.due);}
+    return new Date(a.created)-new Date(b.created);
+  });
+}
+
+function render(){
+  const now=new Date();const h=now.getHours();
+  document.getElementById('header-greeting').textContent=h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';
+  document.getElementById('header-date').textContent=DAYS[now.getDay()]+', '+now.getDate()+' de '+MES[now.getMonth()]+' de '+now.getFullYear();
+
+  let vis=view==='all'?tasks:tasks.filter(t=>t.type===view);
+  if(filter==='pending')vis=vis.filter(t=>!t.done);
+  else if(filter==='done')vis=vis.filter(t=>t.done);
+  else if(filter==='overdue')vis=vis.filter(t=>isOverdue(t));
+
+  const total=vis.length,done=vis.filter(t=>t.done).length;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-done').textContent=done;
+  document.getElementById('s-pending').textContent=total-done;
+  const pct=total>0?Math.round(done/total*100):0;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-label').textContent=pct+'% completado';
+
+  const list=document.getElementById('task-list');
+  if(!vis.length){list.innerHTML='<div class="empty"><div style="font-size:32px;margin-bottom:.5rem">✓</div>No hay tareas aquí</div>';return;}
+
+  if(view==='all'&&filter==='all'){
+    const g={daily:[],weekly:[],monthly:[]};
+    vis.forEach(t=>g[t.type].push(t));
+    const lbl={daily:'Diarias',weekly:'Semanales',monthly:'Mensuales'};
+    let html='';
+    for(const[type,items]of Object.entries(g)){
+      if(!items.length)continue;
+      html+=`<div class="section"><div class="section-title">${lbl[type]} (${items.length})</div>`;
+      sortTasks(items).forEach(t=>{html+=taskHTML(t,true);});
+      html+='</div>';
+    }
+    list.innerHTML=html;
+  }else{
+    list.innerHTML=sortTasks(vis).map(t=>taskHTML(t,view==='all')).join('');
+  }
+}
+
+function taskHTML(t,showTag){
+  const ov=isOverdue(t);
+  const pMap={alta:'p-alta',media:'p-media',baja:'p-baja'};
+  const pLbl={alta:'Alta',media:'Media',baja:'Baja'};
+  const tLbl={daily:'Diaria',weekly:'Semanal',monthly:'Mensual'};
+  const dLbl=t.due?(ov&&!t.done?'Venció el ':'Vence el ')+fmtDate(t.due):'Sin fecha';
+  return `<div class="task-item${t.done?' done':''}${ov&&!t.done?' overdue':''}">
+    <button class="task-check${t.done?' checked':''}" onclick="toggleTask('${t.id}')"></button>
+    <div class="task-body">
+      <div class="task-text">${esc(t.text)}</div>
+      <div class="task-meta">
+        ${showTag?`<span class="task-tag tag-${t.type}">${tLbl[t.type]||''}</span>`:''}
+        <span class="priority-badge ${pMap[t.priority]||'p-media'}">${pLbl[t.priority]||'Media'}</span>
+        <span class="${ov&&!t.done?'task-date ov':'task-date'}">${dLbl}</span>
+        <span class="task-date">${fmtCreated(t.created)}</span>
+      </div>
+    </div>
+    <button class="task-del" onclick="deleteTask('${t.id}')" title="Eliminar">×</button>
+  </div>`;
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+document.getElementById('new-task').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
+document.getElementById('new-due').value=todayStr();
+
+load();render();
+setInterval(()=>{const h=new Date().getHours();document.getElementById('header-greeting').textContent=h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';},60000);
+</script>
+</body>
+</html>
