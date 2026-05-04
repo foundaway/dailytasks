@@ -30,31 +30,54 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .app{max-width:700px;margin:0 auto;padding:1.25rem 1rem 3rem}
 
+/* SETUP CARD */
+.setup-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem 1.25rem 1rem;margin-bottom:1rem}
+.setup-card h3{font-size:15px;font-weight:600;margin-bottom:.4rem;display:flex;align-items:center;gap:7px}
+.setup-card p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
+.setup-card code{font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:4px;word-break:break-all}
+.setup-card input{width:100%;padding:8px 10px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:13px;font-family:inherit;outline:none;margin-bottom:8px}
+.setup-card input:focus{border-color:var(--border2)}
+.setup-actions{display:flex;gap:8px;align-items:center}
+.btn-primary{padding:8px 16px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-primary:hover{opacity:.85}
+.setup-link{font-size:12px;color:var(--blue)}
+.setup-note{font-size:11px;color:var(--text3)}
+
+/* DRIVE BAR */
+.drive-bar{display:flex;align-items:center;gap:8px;padding:.65rem 1rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);margin-bottom:1rem;flex-wrap:wrap}
+.drive-status{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background .3s}
+.dot.on{background:var(--green)}
+.dot.busy{background:var(--amber);animation:blink .7s infinite alternate}
+.dot.err{background:var(--red)}
+@keyframes blink{from{opacity:.3}to{opacity:1}}
+.drive-info{min-width:0}
+.drive-user{font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drive-sub{font-size:11px;color:var(--text3)}
+.dbar-btn{padding:6px 12px;border:0.5px solid var(--border);border-radius:var(--rs);background:transparent;color:var(--text);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
+.dbar-btn:hover{background:var(--surface2)}
+.dbar-btn:disabled{opacity:.35;cursor:default}
+.dbar-btn.up{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+.dbar-btn.dn{color:var(--blue);border-color:var(--blue);background:var(--blue-bg)}
+.dbar-btn.login{color:var(--blue);border-color:var(--blue);background:var(--blue-bg);font-weight:600}
+.dbar-btn.out{color:var(--text3)}
+.dbar-btn.cfg{color:var(--text3);font-size:16px;padding:4px 9px}
+
 /* HEADER */
-.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.1rem}
 .header h1{font-size:22px;font-weight:600;letter-spacing:-.4px}
 .header-date{font-size:12px;color:var(--text2);margin-top:3px}
 .header-greeting{font-size:13px;color:var(--text2)}
 
-/* SYNC ROW */
-.sync-row{display:flex;gap:8px;margin-bottom:1.1rem;flex-wrap:wrap}
-.sync-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
-.sync-btn:hover{background:var(--surface2)}
-.sync-btn.qr{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
-.sync-btn.export{border-color:var(--green);color:var(--green);background:var(--green-bg)}
-.sync-btn.import-btn{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
-.sync-btn svg{width:15px;height:15px;flex-shrink:0}
-.sync-label{font-size:12px;color:var(--text3);display:flex;align-items:center;margin-left:auto}
-
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.1rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
 .stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;text-align:center}
 .stat-num{font-size:26px;font-weight:600;line-height:1.1}
 .stat-label{font-size:11px;color:var(--text2);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
 .stat-num.blue{color:var(--blue)}.stat-num.green{color:var(--green)}.stat-num.amber{color:var(--amber)}
 
 /* PROGRESS */
-.progress-wrap{margin-bottom:1.1rem}
+.progress-wrap{margin-bottom:1rem}
 .progress-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
 .progress-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease}
 .progress-label{font-size:12px;color:var(--text2);margin-top:5px;text-align:right}
@@ -63,15 +86,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tabs{display:flex;gap:4px;margin-bottom:1rem;background:var(--surface2);border-radius:var(--r);padding:4px}
 .tab{flex:1;padding:7px 4px;font-size:13px;font-weight:500;text-align:center;border:none;background:transparent;color:var(--text2);cursor:pointer;border-radius:var(--rs);transition:all .15s;font-family:inherit}
 .tab.active{background:var(--surface);color:var(--text);border:0.5px solid var(--border)}
-
-/* FILTER + SORT */
-.controls{display:flex;align-items:center;gap:8px;margin-bottom:.85rem;flex-wrap:wrap}
-.filter-row{display:flex;gap:6px;flex-wrap:wrap;flex:1}
-.filter-btn{padding:5px 12px;border:0.5px solid var(--border);border-radius:20px;background:transparent;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s}
-.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
-.sort-row{display:flex;align-items:center;gap:6px}
-.sort-row label{font-size:12px;color:var(--text2)}
-.sort-row select{padding:4px 8px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:12px;font-family:inherit;outline:none}
 
 /* ADD FORM */
 .add-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:1rem}
@@ -83,6 +97,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .add-row2 label{font-size:12px;color:var(--text2);white-space:nowrap}
 .add-btn{margin-left:auto;padding:8px 16px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 .add-btn:hover{opacity:.82}
+
+/* CONTROLS */
+.controls{display:flex;align-items:center;gap:8px;margin-bottom:.85rem;flex-wrap:wrap}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.filter-btn{padding:5px 12px;border:0.5px solid var(--border);border-radius:20px;background:transparent;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s}
+.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.sort-row{display:flex;align-items:center;gap:6px}
+.sort-row label{font-size:12px;color:var(--text2)}
+.sort-row select{padding:4px 8px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:12px;font-family:inherit;outline:none}
 
 /* TASKS */
 .section{margin-bottom:1rem}
@@ -113,27 +136,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .clear-done{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
 .clear-done:hover{color:var(--text2)}
 
-/* MODAL OVERLAY */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:center;justify-content:center;padding:1rem}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border-radius:var(--r);padding:1.5rem;width:100%;max-width:380px;position:relative}
-.modal h2{font-size:17px;font-weight:600;margin-bottom:.35rem}
-.modal-sub{font-size:13px;color:var(--text2);margin-bottom:1.1rem;line-height:1.5}
-.modal-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border:none;background:var(--surface2);border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
-.modal-close:hover{background:var(--border)}
-#qr-wrap{display:flex;justify-content:center;margin-bottom:1rem}
-#qr-wrap canvas{border-radius:8px}
-.modal-hint{font-size:12px;color:var(--text3);text-align:center;line-height:1.5}
-.import-area{width:100%;min-height:100px;padding:10px;border:0.5px solid var(--border);border-radius:var(--rs);background:var(--surface2);color:var(--text);font-size:12px;font-family:var(--font-mono,monospace);resize:vertical;outline:none;margin-bottom:.75rem}
-.import-area:focus{border-color:var(--border2)}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end}
-.btn-cancel{padding:7px 14px;border:0.5px solid var(--border);border-radius:var(--rs);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit}
-.btn-ok{padding:7px 14px;border:none;border-radius:var(--rs);background:var(--text);color:var(--bg);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-.merge-info{font-size:12px;color:var(--text2);margin-bottom:.75rem;padding:.6rem .75rem;background:var(--surface2);border-radius:var(--rs)}
-
-/* FILE INPUT hidden */
-#file-import{display:none}
-
 /* TOAST */
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:.6rem 1.2rem;border-radius:var(--r);font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -142,6 +144,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <body>
 <div class="app">
 
+  <!-- SETUP CARD (se oculta cuando hay Client ID guardado) -->
+  <div class="setup-card" id="setup-card">
+    <h3>☁ Sincronización con Google Drive</h3>
+    <p>
+      Tus tareas se guardan en tu propio Google Drive como un archivo privado. Solo necesitas un <strong>Client ID</strong> de Google — gratis, tarda ~3 min configurarlo una sola vez.<br><br>
+      <strong>Pasos:</strong><br>
+      1. Ve a <a class="setup-link" href="https://console.cloud.google.com/apis/credentials" target="_blank">console.cloud.google.com → Credenciales</a><br>
+      2. Crear credenciales → ID de cliente OAuth 2.0 → <strong>Aplicación web</strong><br>
+      3. En "Orígenes JS autorizados" agrega: <code id="origin-code"></code><br>
+      4. Copia el Client ID y pégalo aquí:
+    </p>
+    <input type="text" id="cid-input" placeholder="123456789-abcdef.apps.googleusercontent.com" autocomplete="off"/>
+    <div class="setup-actions">
+      <button class="btn-primary" onclick="saveCID()">Guardar</button>
+      <span class="setup-note">Se guarda solo en este dispositivo (localStorage)</span>
+    </div>
+  </div>
+
+  <!-- DRIVE BAR (visible cuando hay Client ID) -->
+  <div class="drive-bar" id="drive-bar" style="display:none">
+    <div class="drive-status">
+      <div class="dot" id="dot"></div>
+      <div class="drive-info">
+        <div class="drive-user" id="drive-user">Sin sesión</div>
+        <div class="drive-sub" id="drive-sub">Presiona "Iniciar sesión"</div>
+      </div>
+    </div>
+    <button class="dbar-btn login" id="btn-login" onclick="driveLogin()">Iniciar sesión</button>
+    <button class="dbar-btn up" id="btn-up" onclick="driveUpload()" style="display:none" disabled>↑ Subir</button>
+    <button class="dbar-btn dn" id="btn-dn" onclick="driveDownload()" style="display:none" disabled>↓ Bajar</button>
+    <button class="dbar-btn out" id="btn-out" onclick="driveLogout()" style="display:none">Salir</button>
+    <button class="dbar-btn cfg" onclick="showSetup()" title="Configurar">⚙</button>
+  </div>
+
   <!-- HEADER -->
   <div class="header">
     <div>
@@ -149,23 +185,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="header-date" id="header-date"></div>
     </div>
     <div class="header-greeting" id="header-greeting"></div>
-  </div>
-
-  <!-- SYNC ROW -->
-  <div class="sync-row">
-    <button class="sync-btn qr" onclick="openQR()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/></svg>
-      Compartir QR
-    </button>
-    <button class="sync-btn export" onclick="exportJSON()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12l-4-4m4 4l4-4"/><path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
-      Exportar .json
-    </button>
-    <button class="sync-btn import-btn" onclick="openImport()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v12m0-12l-4 4m4-4l4 4"/><path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
-      Importar
-    </button>
-    <span class="sync-label" id="sync-label"></span>
   </div>
 
   <!-- STATS -->
@@ -210,7 +229,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 
-  <!-- CONTROLES -->
+  <!-- CONTROLS -->
   <div class="controls">
     <div class="filter-row">
       <button class="filter-btn active" onclick="setFilter('all')">Todas</button>
@@ -235,216 +254,292 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- MODAL QR -->
-<div class="modal-overlay" id="modal-qr">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-qr')">×</button>
-    <h2>Compartir por QR</h2>
-    <p class="modal-sub">Escanea este código con tu celular para cargar todas tus tareas. Abre la app en el celular → Importar → "Pegar JSON" y pega el texto, <strong>o</strong> simplemente escanea y abre el enlace.</p>
-    <div id="qr-wrap"><canvas id="qr-canvas"></canvas></div>
-    <p class="modal-hint" id="qr-size-hint"></p>
-  </div>
-</div>
-
-<!-- MODAL IMPORTAR -->
-<div class="modal-overlay" id="modal-import">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-import')">×</button>
-    <h2>Importar tareas</h2>
-    <p class="modal-sub">Pega el JSON exportado desde otro dispositivo, o selecciona el archivo .json descargado. Las tareas nuevas se <strong>combinan</strong> con las que ya tienes (no se pierden).</p>
-    <div class="merge-info" id="merge-preview" style="display:none"></div>
-    <textarea class="import-area" id="import-json" placeholder='Pega aquí el JSON...'></textarea>
-    <div style="display:flex;gap:8px;margin-bottom:.75rem">
-      <button class="sync-btn" onclick="document.getElementById('file-import').click()" style="flex:1;justify-content:center">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5 5 5M12 5v11"/></svg>
-        Abrir archivo .json
-      </button>
-    </div>
-    <input type="file" id="file-import" accept=".json,application/json" onchange="loadFile(event)"/>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-import')">Cancelar</button>
-      <button class="btn-ok" onclick="doImport()">Combinar tareas</button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
-<!-- QR lib: qrcode-generator (dibuja directo en canvas) -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-
 <script>
+/* ════════════════════════════════════
+   CONSTANTES
+════════════════════════════════════ */
 const DAYS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const PORD={alta:0,media:1,baja:2};
-const LS='joe_tasks_v3';
+const LS_TASKS='joe_tasks_v3';
+const LS_CID='gd_cid';
+const LS_TOKEN='gd_token';
+const LS_SYNC='gd_sync_ts';
+const SCOPE='https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email';
+const DRIVE_FILENAME='mis-tareas.json';
 
+/* ════════════════════════════════════
+   ESTADO
+════════════════════════════════════ */
 let tasks=[];
 let view='all';
 let filter='all';
+let gToken=null;   // access token activo
+let gFileId=null;  // ID del archivo en Drive
+let gUser='';      // email del usuario
 
-/* ── STORAGE ── */
-function load(){try{tasks=JSON.parse(localStorage.getItem(LS)||'[]');}catch(e){tasks=[];}}
-function save(){try{localStorage.setItem(LS,JSON.stringify(tasks));}catch(e){}}
+/* ════════════════════════════════════
+   LOCAL STORAGE — TAREAS
+════════════════════════════════════ */
+function loadLocal(){try{tasks=JSON.parse(localStorage.getItem(LS_TASKS)||'[]');}catch(e){tasks=[];}}
+function saveLocal(){try{localStorage.setItem(LS_TASKS,JSON.stringify(tasks));}catch(e){}}
 function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function pad(n){return String(n).padStart(2,'0');}
 function todayStr(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 
-/* ── TOAST ── */
-function toast(msg,ms=2500){
+/* ════════════════════════════════════
+   TOAST
+════════════════════════════════════ */
+function toast(msg,ms=2600){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),ms);
 }
 
-/* ── MODALES ── */
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function openModal(id){document.getElementById(id).classList.add('open');}
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-});
+/* ════════════════════════════════════
+   SETUP — CLIENT ID
+════════════════════════════════════ */
+document.getElementById('origin-code').textContent=location.origin||'https://tu-usuario.github.io';
 
-/* ══════════════════════════════
-   QR EXPORT
-══════════════════════════════ */
-function openQR(){
-  const data=JSON.stringify({tasks,v:3,exported:new Date().toISOString()});
-  const bytes=new TextEncoder().encode(data).length;
-  const hint=document.getElementById('qr-size-hint');
-
-  let payload=data;
-  let note='';
-  if(bytes>2800){
-    const slim=tasks.filter(t=>!t.done).map(t=>({id:t.id,text:t.text,type:t.type,priority:t.priority,due:t.due||'',created:t.created}));
-    payload=JSON.stringify({tasks:slim,v:3,partial:true,exported:new Date().toISOString()});
-    note='⚠ Muchas tareas: el QR incluye solo las pendientes. Usa "Exportar .json" para todas.';
+function saveCID(){
+  const v=document.getElementById('cid-input').value.trim();
+  if(!v||!v.includes('.apps.googleusercontent.com')){
+    toast('❌ Eso no parece un Client ID válido');return;
   }
+  localStorage.setItem(LS_CID,v);
+  initDriveBar();
+  toast('✅ Client ID guardado');
+}
 
+function showSetup(){
+  document.getElementById('setup-card').style.display='block';
+  const cid=localStorage.getItem(LS_CID)||'';
+  document.getElementById('cid-input').value=cid;
+}
+
+/* ════════════════════════════════════
+   DRIVE BAR — INIT
+════════════════════════════════════ */
+function initDriveBar(){
+  const cid=localStorage.getItem(LS_CID);
+  document.getElementById('setup-card').style.display=cid?'none':'block';
+  document.getElementById('drive-bar').style.display=cid?'flex':'none';
+  if(!cid)return;
+
+  // Intentar restaurar token guardado
   try{
-    const typeNum=0; // auto detect
-    const qr=qrcode(typeNum,'M');
-    qr.addData(payload);
-    qr.make();
-
-    const canvas=document.getElementById('qr-canvas');
-    const size=240;
-    const cellCount=qr.getModuleCount();
-    const cellSize=Math.floor(size/cellCount);
-    const actualSize=cellSize*cellCount;
-    canvas.width=actualSize;
-    canvas.height=actualSize;
-    const ctx=canvas.getContext('2d');
-
-    // Fondo blanco (QR necesita contraste)
-    ctx.fillStyle='#ffffff';
-    ctx.fillRect(0,0,actualSize,actualSize);
-    ctx.fillStyle='#000000';
-
-    for(let r=0;r<cellCount;r++){
-      for(let c=0;c<cellCount;c++){
-        if(qr.isDark(r,c)){
-          ctx.fillRect(c*cellSize,r*cellSize,cellSize,cellSize);
-        }
-      }
+    const saved=JSON.parse(localStorage.getItem(LS_TOKEN)||'null');
+    if(saved&&saved.exp>Date.now()+30000){
+      gToken=saved.tok;
+      fetchUserInfo().then(email=>{
+        gUser=email;
+        setBarState('on',email,syncTimeLabel());
+        showSyncButtons();
+      }).catch(()=>setBarState('idle','Sin sesión','Token expirado — inicia sesión'));
+      return;
     }
+  }catch(e){}
 
-    const kb=Math.round(new TextEncoder().encode(payload).length/102.4)/10;
-    hint.textContent=note||(tasks.length+' tarea(s) · '+kb+' KB');
-  }catch(e){
-    document.getElementById('qr-size-hint').textContent='Error generando QR: '+e.message;
-    console.error(e);
-  }
-
-  openModal('modal-qr');
+  setBarState('idle','Sin sesión','Presiona "Iniciar sesión"');
 }
 
-/* ══════════════════════════════
-   JSON EXPORT
-══════════════════════════════ */
-function exportJSON(){
-  const data=JSON.stringify({tasks,v:3,exported:new Date().toISOString()},null,2);
-  const blob=new Blob([data],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  const d=new Date();
-  a.download='tareas-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  updateSyncLabel();
-  toast('✅ Archivo descargado ('+tasks.length+' tareas)');
+/* ════════════════════════════════════
+   OAUTH2 — IMPLICIT FLOW
+════════════════════════════════════ */
+function driveLogin(){
+  const cid=localStorage.getItem(LS_CID);
+  if(!cid){showSetup();return;}
+  const redirect=location.href.split('#')[0];
+  const url='https://accounts.google.com/o/oauth2/v2/auth'
+    +'?client_id='+encodeURIComponent(cid)
+    +'&redirect_uri='+encodeURIComponent(redirect)
+    +'&response_type=token'
+    +'&scope='+encodeURIComponent(SCOPE)
+    +'&prompt=select_account';
+  location.href=url;
 }
 
-/* ══════════════════════════════
-   IMPORT
-══════════════════════════════ */
-function openImport(){
-  document.getElementById('import-json').value='';
-  document.getElementById('merge-preview').style.display='none';
-  openModal('modal-import');
-}
-
-function loadFile(e){
-  const f=e.target.files[0];
-  if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    document.getElementById('import-json').value=ev.target.result;
-    previewMerge(ev.target.result);
-  };
-  r.readAsText(f);
-  e.target.value='';
-}
-
-document.getElementById('import-json').addEventListener('input',function(){
-  previewMerge(this.value);
-});
-
-function previewMerge(raw){
-  const box=document.getElementById('merge-preview');
-  try{
-    const obj=JSON.parse(raw.trim());
-    const incoming=(obj.tasks||[]).length;
-    const existing=tasks.length;
-    const ids=new Set(tasks.map(t=>t.id));
-    const nuevas=(obj.tasks||[]).filter(t=>!ids.has(t.id)).length;
-    box.textContent=`📦 Archivo: ${incoming} tareas | Ya tienes: ${existing} | Se agregarán: ${nuevas} nueva(s)`;
-    box.style.display='block';
-  }catch(e){
-    box.style.display='none';
-  }
-}
-
-function doImport(){
-  const raw=document.getElementById('import-json').value.trim();
-  if(!raw){toast('Pega o carga un archivo JSON primero.');return;}
-  let obj;
-  try{obj=JSON.parse(raw);}
-  catch(e){toast('❌ JSON inválido. Revisa el texto.',3000);return;}
-
-  const incoming=obj.tasks||[];
-  if(!Array.isArray(incoming)||!incoming.length){toast('No se encontraron tareas en el archivo.');return;}
-
-  // Merge: las tareas existentes tienen prioridad (no se sobrescriben)
-  const existing=new Map(tasks.map(t=>[t.id,t]));
-  let added=0;
-  incoming.forEach(t=>{
-    if(!existing.has(t.id)){existing.set(t.id,t);added++;}
+function handleOAuthRedirect(){
+  if(!location.hash.includes('access_token'))return;
+  const p=new URLSearchParams(location.hash.slice(1));
+  const tok=p.get('access_token');
+  const exp=parseInt(p.get('expires_in')||'3600');
+  if(!tok)return;
+  gToken=tok;
+  localStorage.setItem(LS_TOKEN,JSON.stringify({tok,exp:Date.now()+exp*1000-60000}));
+  history.replaceState(null,'',location.pathname+location.search);
+  setBarState('busy','Conectando...','');
+  fetchUserInfo().then(email=>{
+    gUser=email;
+    setBarState('on',email,'Listo');
+    showSyncButtons();
+    toast('✅ Sesión iniciada como '+email);
+  }).catch(e=>{
+    setBarState('err','Error de sesión',e.message);
   });
-  tasks=Array.from(existing.values());
-  save();render();
-  closeModal('modal-import');
-  updateSyncLabel();
-  toast('✅ '+added+' tarea(s) importada(s)');
 }
 
-/* ── SYNC LABEL ── */
-function updateSyncLabel(){
-  const now=new Date();
-  document.getElementById('sync-label').textContent='Último sync '+pad(now.getHours())+':'+pad(now.getMinutes());
+async function fetchUserInfo(){
+  const r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',
+    {headers:{Authorization:'Bearer '+gToken}});
+  if(!r.ok)throw new Error('Token inválido');
+  const j=await r.json();
+  return j.email||j.sub;
 }
 
-/* ── TASKS ── */
+function driveLogout(){
+  gToken=null;gFileId=null;gUser='';
+  localStorage.removeItem(LS_TOKEN);
+  setBarState('idle','Sin sesión','Presiona "Iniciar sesión"');
+  hideSyncButtons();
+  toast('Sesión cerrada');
+}
+
+/* ════════════════════════════════════
+   DRIVE BAR — ESTADO
+════════════════════════════════════ */
+function setBarState(state,user,sub){
+  const dot=document.getElementById('dot');
+  dot.className='dot';
+  if(state==='on')dot.classList.add('on');
+  else if(state==='busy')dot.classList.add('busy');
+  else if(state==='err')dot.classList.add('err');
+  document.getElementById('drive-user').textContent=user||'Sin sesión';
+  document.getElementById('drive-sub').textContent=sub||'';
+}
+
+function showSyncButtons(){
+  document.getElementById('btn-login').style.display='none';
+  document.getElementById('btn-up').style.display='inline-block';
+  document.getElementById('btn-up').disabled=false;
+  document.getElementById('btn-dn').style.display='inline-block';
+  document.getElementById('btn-dn').disabled=false;
+  document.getElementById('btn-out').style.display='inline-block';
+}
+
+function hideSyncButtons(){
+  document.getElementById('btn-login').style.display='inline-block';
+  document.getElementById('btn-up').style.display='none';
+  document.getElementById('btn-dn').style.display='none';
+  document.getElementById('btn-out').style.display='none';
+}
+
+function syncTimeLabel(){
+  const ts=localStorage.getItem(LS_SYNC);
+  if(!ts)return 'Sin sincronizar';
+  const d=new Date(parseInt(ts));
+  return 'Último sync '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+
+function setSyncButtons(disabled){
+  document.getElementById('btn-up').disabled=disabled;
+  document.getElementById('btn-dn').disabled=disabled;
+}
+
+/* ════════════════════════════════════
+   DRIVE API — HELPERS
+════════════════════════════════════ */
+async function findFile(){
+  const r=await fetch(
+    'https://www.googleapis.com/drive/v3/files?spaces=appDataFolder'
+    +'&q=name+%3D+%22'+DRIVE_FILENAME+'%22&fields=files(id)',
+    {headers:{Authorization:'Bearer '+gToken}});
+  if(!r.ok)throw new Error('Error buscando archivo ('+r.status+')');
+  const j=await r.json();
+  return j.files&&j.files.length?j.files[0].id:null;
+}
+
+/* ════════════════════════════════════
+   DRIVE — SUBIR
+════════════════════════════════════ */
+async function driveUpload(){
+  if(!gToken){toast('Inicia sesión primero.');return;}
+  setSyncButtons(true);
+  setBarState('busy',gUser,'Subiendo...');
+  try{
+    if(!gFileId)gFileId=await findFile();
+    const body=JSON.stringify({tasks,v:3,ts:Date.now()});
+
+    let r;
+    if(gFileId){
+      // Actualizar archivo existente
+      r=await fetch(
+        'https://www.googleapis.com/upload/drive/v3/files/'+gFileId+'?uploadType=media',
+        {method:'PATCH',headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},body});
+    }else{
+      // Crear archivo nuevo en appDataFolder
+      const boundary='bound'+Date.now();
+      const meta=JSON.stringify({name:DRIVE_FILENAME,parents:['appDataFolder']});
+      const multipart=
+        '--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+meta+'\r\n'
+        +'--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+body+'\r\n'
+        +'--'+boundary+'--';
+      r=await fetch(
+        'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',
+        {method:'POST',headers:{Authorization:'Bearer '+gToken,'Content-Type':'multipart/related; boundary='+boundary},body:multipart});
+      const j=await r.json();
+      if(j.id)gFileId=j.id;
+    }
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    localStorage.setItem(LS_SYNC,Date.now().toString());
+    setBarState('on',gUser,syncTimeLabel());
+    toast('✅ Subido a Drive ('+tasks.length+' tareas)');
+  }catch(e){
+    setBarState('err',gUser,'Error al subir: '+e.message);
+    toast('❌ '+e.message,3500);
+  }finally{setSyncButtons(false);}
+}
+
+/* ════════════════════════════════════
+   DRIVE — BAJAR (merge)
+════════════════════════════════════ */
+async function driveDownload(){
+  if(!gToken){toast('Inicia sesión primero.');return;}
+  setSyncButtons(true);
+  setBarState('busy',gUser,'Bajando...');
+  try{
+    if(!gFileId)gFileId=await findFile();
+    if(!gFileId){
+      toast('Aún no hay archivo en Drive. Sube primero desde otro dispositivo.');
+      setBarState('on',gUser,syncTimeLabel());
+      return;
+    }
+    const r=await fetch(
+      'https://www.googleapis.com/drive/v3/files/'+gFileId+'?alt=media',
+      {headers:{Authorization:'Bearer '+gToken}});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    if(!Array.isArray(j.tasks))throw new Error('Formato inesperado en el archivo');
+
+    // Merge: unión por ID, las del servidor reemplazan las locales si difieren
+    const localMap=new Map(tasks.map(t=>[t.id,t]));
+    j.tasks.forEach(t=>{
+      // Si existe localmente y la local fue marcada como done más recientemente, la conservamos
+      const local=localMap.get(t.id);
+      if(!local){localMap.set(t.id,t);}
+      else{
+        // Gana la versión más reciente por doneAt o created
+        const localTs=local.doneAt||local.created||0;
+        const remoteTs=t.doneAt||t.created||0;
+        if(remoteTs>localTs)localMap.set(t.id,t);
+      }
+    });
+    tasks=Array.from(localMap.values());
+    saveLocal();render();
+    localStorage.setItem(LS_SYNC,Date.now().toString());
+    setBarState('on',gUser,syncTimeLabel());
+    toast('✅ Sincronizado ('+tasks.length+' tareas en total)');
+  }catch(e){
+    setBarState('err',gUser,'Error al bajar: '+e.message);
+    toast('❌ '+e.message,3500);
+  }finally{setSyncButtons(false);}
+}
+
+/* ════════════════════════════════════
+   TAREAS — LÓGICA
+════════════════════════════════════ */
 function setView(v){
   view=v;
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['all','daily','weekly','monthly'][i]===v));
@@ -468,24 +563,24 @@ function addTask(){
     done:false,
     created:new Date().toISOString()
   });
-  save();inp.value='';render();inp.focus();
+  saveLocal();inp.value='';render();inp.focus();
 }
 function toggleTask(id){
   const t=tasks.find(x=>x.id===id);
   if(t){t.done=!t.done;t.doneAt=t.done?new Date().toISOString():null;}
-  save();render();
+  saveLocal();render();
 }
 function deleteTask(id){
   if(!confirm('¿Eliminar esta tarea?'))return;
   tasks=tasks.filter(x=>x.id!==id);
-  save();render();
+  saveLocal();render();
 }
 function clearDone(){
   const n=tasks.filter(t=>t.done).length;
   if(!n){alert('No hay completadas.');return;}
   if(!confirm('¿Eliminar '+n+' tarea(s) completada(s)?'))return;
   tasks=tasks.filter(t=>!t.done);
-  save();render();
+  saveLocal();render();
 }
 
 function isOverdue(t){return t.due&&!t.done&&t.due<todayStr();}
@@ -504,7 +599,8 @@ function sortTasks(arr){
 function render(){
   const now=new Date();const h=now.getHours();
   document.getElementById('header-greeting').textContent=h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';
-  document.getElementById('header-date').textContent=DAYS[now.getDay()]+', '+now.getDate()+' de '+MES[now.getMonth()]+' de '+now.getFullYear();
+  document.getElementById('header-date').textContent=
+    DAYS[now.getDay()]+', '+now.getDate()+' de '+MES[now.getMonth()]+' de '+now.getFullYear();
 
   let vis=view==='all'?tasks:tasks.filter(t=>t.type===view);
   if(filter==='pending')vis=vis.filter(t=>!t.done);
@@ -559,14 +655,23 @@ function taskHTML(t,showTag){
     <button class="task-del" onclick="deleteTask('${t.id}')" title="Eliminar">×</button>
   </div>`;
 }
-
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
 document.getElementById('new-task').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
 document.getElementById('new-due').value=todayStr();
 
-load();render();
-setInterval(()=>{const h=new Date().getHours();document.getElementById('header-greeting').textContent=h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';},60000);
+loadLocal();
+render();
+handleOAuthRedirect();   // detecta si venimos del redirect de Google
+initDriveBar();          // restaura sesión guardada si existe
+
+setInterval(()=>{
+  const h=new Date().getHours();
+  document.getElementById('header-greeting').textContent=h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';
+},60000);
 </script>
 </body>
 </html>
