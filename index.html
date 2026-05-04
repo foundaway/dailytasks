@@ -267,7 +267,7 @@ const LS_TASKS='joe_tasks_v3';
 const LS_CID='gd_cid';
 const LS_TOKEN='gd_token';
 const LS_SYNC='gd_sync_ts';
-const SCOPE='https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email';
+const SCOPE='https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email';
 const DRIVE_FILENAME='mis-tareas.json';
 
 /* ════════════════════════════════════
@@ -443,8 +443,7 @@ function setSyncButtons(disabled){
 ════════════════════════════════════ */
 async function findFile(){
   const r=await fetch(
-    'https://www.googleapis.com/drive/v3/files?spaces=appDataFolder'
-    +'&q=name+%3D+%22'+DRIVE_FILENAME+'%22&fields=files(id)',
+    'https://www.googleapis.com/drive/v3/files?q=name+%3D+%22'+DRIVE_FILENAME+'%22+and+trashed+%3D+false&fields=files(id)',
     {headers:{Authorization:'Bearer '+gToken}});
   if(!r.ok)throw new Error('Error buscando archivo ('+r.status+')');
   const j=await r.json();
@@ -471,7 +470,7 @@ async function driveUpload(){
     }else{
       // Crear archivo nuevo en appDataFolder
       const boundary='bound'+Date.now();
-      const meta=JSON.stringify({name:DRIVE_FILENAME,parents:['appDataFolder']});
+      const meta=JSON.stringify({name:DRIVE_FILENAME});
       const multipart=
         '--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+meta+'\r\n'
         +'--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+body+'\r\n'
